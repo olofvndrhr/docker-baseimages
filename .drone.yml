@@ -1,0 +1,87 @@
+---
+kind: pipeline
+type: docker
+name: docker-build-arm64
+
+platform:
+  os: linux
+  arch: arm64
+
+trigger:
+  event:
+  - tag
+
+steps:
+- name: build-and-publish-docker-image
+  image: plugins/docker
+  pull: if-not-exists
+  settings: 
+    repo: reg.44net.ch/44net-baseimage/debian-s6
+    registry: reg.44net.ch
+    dockerfile: Dockerfile.arm64
+    auto_tag: true
+    auto_tag_suffix: linux-arm64
+    username:
+      from_secret: reg-44net-username
+    password:
+      from_secret: reg-44net-key
+
+
+---
+kind: pipeline
+type: docker
+name: docker-build-amd64
+
+platform:
+  os: linux
+  arch: amd64
+
+trigger:
+  event:
+  - tag
+
+steps:
+- name: build-and-publish-docker-image
+  image: plugins/docker
+  pull: if-not-exists
+  settings: 
+    repo: reg.44net.ch/44net-baseimage/debian-s6
+    registry: reg.44net.ch
+    dockerfile: Dockerfile.amd64
+    auto_tag: true
+    auto_tag_suffix: linux-amd64
+    username:
+      from_secret: reg-44net-username
+    password:
+      from_secret: reg-44net-key
+
+
+---
+kind: pipeline
+type: docker
+name: docker-publish-manifest
+
+platform:
+  os: linux
+  arch: amd64
+
+trigger:
+  event:
+  - tag
+
+steps:
+- name: "publish manifest"
+  image: plugins/manifest
+  settings:
+    spec: manifest.tmpl
+    auto_tag: true
+    ignore_missing: true
+    username:
+      from_secret: reg-44net-username
+    password:
+      from_secret: reg-44net-key
+    
+depends_on:
+  - docker-build-amd64
+  - docker-build-arm64
+
