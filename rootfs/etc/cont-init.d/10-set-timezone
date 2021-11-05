@@ -5,9 +5,10 @@
 
 if [[ -f "/usr/share/zoneinfo/${TZ}" ]]
   then
-    ln -snf "/usr/share/zoneinfo/$TZ" /etc/localtime
+    echo "Setting Timezone: ${TZ}"
+    ln -snf "/usr/share/zoneinfo/${TZ}" /etc/localtime
     echo "${TZ}" > /etc/timezone
   else
-    echo "WARNING: $TZ is not a valid time zone."
+    echo "WARNING: ${TZ} is not a valid time zone."
 fi
 
