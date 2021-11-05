@@ -1,5 +1,12 @@
 # Docker baseimage with s6 overlay. Build on debian.
 
+includes:
+* s6-overlay
+* cron
+* ca-certificates for https downloads
+* archive tools - tar,gzip,bzip2,zip
+* webcurler - wget, curl
+* widely used tools - rsync, git
 
 ## proposed s6 file-structure
 
