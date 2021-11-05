@@ -1,6 +1,6 @@
 # Docker baseimage with s6 overlay. Build on debian.
 
-[![Build Status](https://drone.44net.ch/api/badges/44net-assets/docker-baseimage-debian-s6/status.svg)](https://drone.44net.ch/44net-assets/docker-baseimage-debian-s6)
+[![Build Status](https://drone.44net.ch/api/badges/44net-assets/docker-baseimages-debian-s6/status.svg)](https://drone.44net.ch/44net-assets/docker-baseimages-debian-s6)
 
 includes:
 * s6-overlay
