@@ -48,7 +48,7 @@ RUN \
       git \
       wget && \
   echo "**** generate locale ****" && \
-  locale-gen en_US.UTF-8 && \
+  localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 && \
   echo "**** create default user ****" && \
   useradd -u 4444 -U -d "${USER_HOME}" -s /bin/false abc && \
   echo "**** cleanup ****" && \
