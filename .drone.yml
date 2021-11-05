@@ -16,8 +16,8 @@ steps:
   image: plugins/docker
   pull: if-not-exists
   settings: 
-    repo: reg.44net.ch/44net-baseimage/debian-s6
-    registry: reg.44net.ch
+    repo: cr.44net.ch/baseimages/debian-s6
+    registry: cr.44net.ch
     dockerfile: Dockerfile.arm64
     auto_tag: true
     auto_tag_suffix: linux-arm64
@@ -45,8 +45,8 @@ steps:
   image: plugins/docker
   pull: if-not-exists
   settings: 
-    repo: reg.44net.ch/44net-baseimage/debian-s6
-    registry: reg.44net.ch
+    repo: cr.44net.ch/baseimages/debian-s6
+    registry: cr.44net.ch
     dockerfile: Dockerfile.amd64
     auto_tag: true
     auto_tag_suffix: linux-amd64
