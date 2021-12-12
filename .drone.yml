@@ -1,7 +1,7 @@
+---
 ################
 # docker build #
 ################
----
 kind: pipeline
 type: docker
 name: docker-build-arm64
