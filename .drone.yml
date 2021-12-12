@@ -1,3 +1,6 @@
+################
+# docker build #
+################
 ---
 kind: pipeline
 type: docker
@@ -11,20 +14,29 @@ trigger:
   event:
   - tag
 
-steps:
-- name: build-and-publish-docker-image
+# anchors
+cr_secrets: &cr_secrets
+  username:
+    from_secret: cr-44net-username
+  password:
+    from_secret: cr-44net-key
+
+docker_build: &docker_build
   image: plugins/docker
   pull: if-not-exists
+  group: build
+
+# build steps
+steps:
+- name: build-and-publish-docker-image
+  <<: *docker_build
   settings: 
     repo: cr.44net.ch/baseimages/debian-s6
     registry: cr.44net.ch
     dockerfile: Dockerfile.arm64
     auto_tag: true
     auto_tag_suffix: linux-arm64
-    username:
-      from_secret: cr-44net-username
-    password:
-      from_secret: cr-44net-key
+    <<: *cr_secrets
 
 
 ---
@@ -40,20 +52,29 @@ trigger:
   event:
   - tag
 
-steps:
-- name: build-and-publish-docker-image
+# anchors
+cr_secrets: &cr_secrets
+  username:
+    from_secret: cr-44net-username
+  password:
+    from_secret: cr-44net-key
+
+docker_build: &docker_build
   image: plugins/docker
   pull: if-not-exists
+  group: build
+
+# build steps
+steps:
+- name: build-and-publish-docker-image
+  <<: *docker_build
   settings: 
     repo: cr.44net.ch/baseimages/debian-s6
     registry: cr.44net.ch
     dockerfile: Dockerfile.amd64
     auto_tag: true
     auto_tag_suffix: linux-amd64
-    username:
-      from_secret: cr-44net-username
-    password:
-      from_secret: cr-44net-key
+    <<: *cr_secrets
 
 
 ---
@@ -69,6 +90,14 @@ trigger:
   event:
   - tag
 
+# anchors
+cr_secrets: &cr_secrets
+  username:
+    from_secret: cr-44net-username
+  password:
+    from_secret: cr-44net-key
+
+# build steps
 steps:
 - name: "publish manifest"
   image: plugins/manifest
@@ -76,10 +105,7 @@ steps:
     spec: manifest.tmpl
     auto_tag: true
     ignore_missing: true
-    username:
-      from_secret: cr-44net-username
-    password:
-      from_secret: cr-44net-key
+    <<: *cr_secrets
     
 depends_on:
   - docker-build-amd64
