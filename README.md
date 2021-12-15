@@ -18,7 +18,7 @@ includes:
     ├── cont-init.d
     │   ├── 10-set-timezone     !default
     │   ├── 11-fix-attrs        !default
-    │   ├── 12-setuid           !default    
+    │   ├── 12-setuid           !default
     │   ├── 20-setenv
     │   ├── 51-install-app
     │   ├── 52-install-extras
