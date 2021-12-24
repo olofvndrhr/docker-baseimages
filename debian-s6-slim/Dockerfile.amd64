@@ -33,6 +33,7 @@ RUN \
   apt-get install -y --no-install-recommends \
       cron \
       tzdata \
+      locales \
       ca-certificates \
       curl \
       git \

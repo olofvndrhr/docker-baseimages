@@ -1,4 +1,4 @@
-# Docker baseimage with s6 overlay. Built on debian-slim.
+# Docker baseimages with s6 overlay. Built on debian-slim.
 
 [![Build Status](https://drone.44net.ch/api/badges/44net-assets/docker-baseimages-build/status.svg)](https://drone.44net.ch/44net-assets/docker-baseimages-build)
 
@@ -6,9 +6,9 @@ includes:
 * s6-overlay
 * cron
 * ca-certificates for https downloads
-* archive tools - tar,gzip,bzip2,zip
 * webcurler - wget, curl
-* widely used tools - rsync, git
+* archive tools - tar,gzip,bzip2,zip (not in slim)
+* widely used tools - rsync, git (rsync not in slim)
 
 ## proposed s6 file-structure
 
