@@ -1,0 +1,33 @@
+#!/usr/bin/with-contenv bash
+# shellcheck shell=bash
+# shellcheck disable=SC1112
+# shellcheck disable=SC2016
+# shellcheck disable=SC1073
+# shellcheck disable=SC1004
+
+
+# set pid/gid or leave on default
+: "${PUID:=4444}"
+: "${PGID:=4444}"
+
+groupmod -o -g "${PGID}" abc
+usermod -o -u "${PUID}" abc
+
+echo '
+-------------------------------------------------
+   ___   ___            _                ____ 
+  /   | /   |          | |              / ___|
+ / /| |/ /| |_ __   ___| |_ ______ ___ / /___ 
+/ /_| / /_| | ’_ \ / _ \ __|______/ __|| ___ \
+\___  \___  | | | |  __/ |_       \__ \| \_/ |
+    |_/   |_/_| |_|\___|\__|      |___/\_____/
+                                                                                                                                                                                                                       
+Source: git.gsqnet.ch/44net-assets'
+echo "
+-------------------------------------------------
+GID/UID
+-------------------------------------------------
+User uid:    $(id -u abc)
+User gid:    $(id -g abc)
+-------------------------------------------------
+"

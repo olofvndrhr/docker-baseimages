@@ -26,18 +26,29 @@ docker_build: &docker_build
   pull: if-not-exists
   group: build
 
-# build steps
+# build steps arm64
 steps:
-- name: build-and-publish-docker-image
+- name: 'debian-s6: build and publish docker image'
   <<: *docker_build
-  settings: 
+  settings:
     repo: cr.44net.ch/baseimages/debian-s6
     registry: cr.44net.ch
-    dockerfile: Dockerfile.arm64
+    context: debian-s6
+    dockerfile: debian-s6/Dockerfile.arm64
     auto_tag: true
     auto_tag_suffix: linux-arm64
     <<: *cr_secrets
 
+- name: 'debian-s6-slim: build and publish docker image'
+  <<: *docker_build
+  settings:
+    repo: cr.44net.ch/baseimages/debian-s6-slim
+    registry: cr.44net.ch
+    context: debian-s6-slim
+    dockerfile: debian-s6-slim/Dockerfile.arm64
+    auto_tag: true
+    auto_tag_suffix: linux-arm64
+    <<: *cr_secrets
 
 ---
 kind: pipeline
@@ -64,18 +75,29 @@ docker_build: &docker_build
   pull: if-not-exists
   group: build
 
-# build steps
+# build steps amd64
 steps:
-- name: build-and-publish-docker-image
+- name: 'debian-s6: build and publish docker image'
   <<: *docker_build
-  settings: 
+  settings:
     repo: cr.44net.ch/baseimages/debian-s6
     registry: cr.44net.ch
-    dockerfile: Dockerfile.amd64
+    context: debian-s6
+    dockerfile: debian-s6/Dockerfile.amd64
     auto_tag: true
     auto_tag_suffix: linux-amd64
     <<: *cr_secrets
 
+- name: 'debian-s6-slim: build and publish docker image'
+  <<: *docker_build
+  settings:
+    repo: cr.44net.ch/baseimages/debian-s6-slim
+    registry: cr.44net.ch
+    context: debian-s6-slim
+    dockerfile: debian-s6-slim/Dockerfile.amd64
+    auto_tag: true
+    auto_tag_suffix: linux-amd64
+    <<: *cr_secrets
 
 ---
 kind: pipeline
@@ -99,14 +121,22 @@ cr_secrets: &cr_secrets
 
 # build steps
 steps:
-- name: "publish manifest"
+- name: 'debian-s6: publish manifest'
   image: plugins/manifest
   settings:
-    spec: manifest.tmpl
+    spec: debian-s6/manifest.tmpl
     auto_tag: true
     ignore_missing: true
     <<: *cr_secrets
-    
+
+- name: 'debian-s6-slim: publish manifest'
+  image: plugins/manifest
+  settings:
+    spec: debian-s6-slim/manifest.tmpl
+    auto_tag: true
+    ignore_missing: true
+    <<: *cr_secrets
+
 depends_on:
   - docker-build-amd64
   - docker-build-arm64
