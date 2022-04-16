@@ -12,25 +12,37 @@ includes:
 
 ## proposed s6 file-structure
 
+All files/folder with a '!' as a remark are default files, and exist already.
 ```
 .
-└── rootfs
-    ├── cont-init.d
-    │   ├── 10-set-timezone     !default
-    │   ├── 11-fix-attrs        !default
-    │   ├── 12-setuid           !default
-    │   ├── 20-setenv
-    │   ├── 51-install-app
-    │   ├── 52-install-extras
-    │   ├── 53-other-stuff
-    │   └── 80-fixperm
-    ├── cron.d
-    │   ├── cron-startapp
-    │   └── cron-stuff
-    └── services.d
-        ├── cron                !default
-        │   └── run             !default
-        └── app
-            └── run
+└── rootfs !
+    └── etc !
+        ├── cron.d !
+        │   ├── cron_startapp
+        │   └── cron_stuff
+        └── s6-overlay !
+            ├── init !
+            │   └── 00-init !
+            └── s6-rc.d !
+                ├── init !
+                │   ├── type !
+                │   └── up !
+                ├── cron !
+                │   ├── type !
+                │   ├── run !
+                │   └── dependencies !
+                ├── myapp
+                │   ├── type (longrun)
+                │   ├── run (command)
+                │   └── dependencies !always add 'init' here
+                └── scripts !
+                    ├── 10-set-timezone !
+                    ├── 11-fix-attrs !
+                    ├── 12-setuid !
+                    ├── 51-install-app
+                    ├── 52-install-extras
+                    ├── 53-other-stuff
+                    ├── 53-other-stuff
+                    └── 80-fixperm
 
 ```

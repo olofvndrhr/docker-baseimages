@@ -2,55 +2,7 @@
 ################
 # docker build #
 ################
-kind: pipeline
-type: docker
-name: docker-build-arm64
-
-platform:
-  os: linux
-  arch: arm64
-
-trigger:
-  event:
-  - tag
-
-# anchors
-cr_secrets: &cr_secrets
-  username:
-    from_secret: cr-44net-username
-  password:
-    from_secret: cr-44net-key
-
-docker_build: &docker_build
-  image: plugins/docker
-  pull: if-not-exists
-  group: build
-
-# build steps arm64
-steps:
-- name: 'debian-s6: build and publish docker image'
-  <<: *docker_build
-  settings:
-    repo: cr.44net.ch/baseimages/debian-s6
-    registry: cr.44net.ch
-    context: debian-s6
-    dockerfile: debian-s6/Dockerfile.arm64
-    auto_tag: true
-    auto_tag_suffix: linux-arm64
-    <<: *cr_secrets
-
-- name: 'debian-s6-slim: build and publish docker image'
-  <<: *docker_build
-  settings:
-    repo: cr.44net.ch/baseimages/debian-s6-slim
-    registry: cr.44net.ch
-    context: debian-s6-slim
-    dockerfile: debian-s6-slim/Dockerfile.arm64
-    auto_tag: true
-    auto_tag_suffix: linux-arm64
-    <<: *cr_secrets
-
----
+# build amd64
 kind: pipeline
 type: docker
 name: docker-build-amd64
@@ -63,7 +15,7 @@ trigger:
   event:
   - tag
 
-# anchors
+# anchors amd64
 cr_secrets: &cr_secrets
   username:
     from_secret: cr-44net-username
@@ -75,7 +27,7 @@ docker_build: &docker_build
   pull: if-not-exists
   group: build
 
-# build steps amd64
+# steps amd64
 steps:
 - name: 'debian-s6: build and publish docker image'
   <<: *docker_build
@@ -99,7 +51,60 @@ steps:
     auto_tag_suffix: linux-amd64
     <<: *cr_secrets
 
+
 ---
+# build arm64
+kind: pipeline
+type: docker
+name: docker-build-arm64
+
+platform:
+  os: linux
+  arch: arm64
+
+trigger:
+  event:
+  - tag
+
+# anchors arm64
+cr_secrets: &cr_secrets
+  username:
+    from_secret: cr-44net-username
+  password:
+    from_secret: cr-44net-key
+
+docker_build: &docker_build
+  image: plugins/docker
+  pull: if-not-exists
+  group: build
+
+# steps arm64
+steps:
+- name: 'debian-s6: build and publish docker image'
+  <<: *docker_build
+  settings:
+    repo: cr.44net.ch/baseimages/debian-s6
+    registry: cr.44net.ch
+    context: debian-s6
+    dockerfile: debian-s6/Dockerfile.arm64
+    auto_tag: true
+    auto_tag_suffix: linux-arm64
+    <<: *cr_secrets
+
+- name: 'debian-s6-slim: build and publish docker image'
+  <<: *docker_build
+  settings:
+    repo: cr.44net.ch/baseimages/debian-s6-slim
+    registry: cr.44net.ch
+    context: debian-s6-slim
+    dockerfile: debian-s6-slim/Dockerfile.arm64
+    auto_tag: true
+    auto_tag_suffix: linux-arm64
+    <<: *cr_secrets
+
+
+---
+# publish manifest
 kind: pipeline
 type: docker
 name: docker-publish-manifest
@@ -119,7 +124,7 @@ cr_secrets: &cr_secrets
   password:
     from_secret: cr-44net-key
 
-# build steps
+# steps
 steps:
 - name: 'debian-s6: publish manifest'
   image: plugins/manifest

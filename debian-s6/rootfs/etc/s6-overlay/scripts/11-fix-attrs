@@ -1,13 +1,10 @@
-#!/usr/bin/with-contenv bash
+#!/command/with-contenv bash
 # shellcheck shell=bash
 
 # directorys to fix/set permissions
 sys_dirs=(
-
-  /etc/cont-init.d
-  /etc/services.d
-  /etc/cron.d
-  
+'/etc/cron.d'
+'/etc/s6-overlay/scripts'
 )
 
 
@@ -17,6 +14,6 @@ for fix_dir in "${sys_dirs[@]}"
     echo "Fixing permissions in ${fix_dir}"
     chown -R root:root "${fix_dir}"
     find "${fix_dir}" -type d -exec chmod 755 {} \;
-    find "${fix_dir}" -type f -exec chmod 700 {} \; 
+    find "${fix_dir}" -type f -exec chmod 700 {} \;
 done
 
