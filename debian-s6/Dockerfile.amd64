@@ -8,8 +8,8 @@ LABEL maintainer='Ivan Schaller'
 
 
 # s6 overlay version
-ARG S6-VERSION='v2.2.0.3'
-ARG S6-ARCH='amd64'
+ARG S6_VERSION='v2.2.0.3'
+ARG S6_ARCH='amd64'
 
 
 # environment settings
@@ -22,8 +22,8 @@ ENV HOME='/root' \
 
 
 # add s6 overlay
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6-VERSION}/s6-overlay-${S6-ARCH}-installer '/tmp/'
-RUN chmod +x "/tmp/s6-overlay-${S6-ARCH}-installer" && "/tmp/s6-overlay-${S6-ARCH}-installer" '/' && rm "/tmp/s6-overlay-${S6-ARCH}-installer"
+ADD "https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-${S6_ARCH}-installer" '/tmp/'
+RUN chmod +x "/tmp/s6-overlay-${S6_ARCH}-installer" && "/tmp/s6-overlay-${S6_ARCH}-installer" '/' && rm "/tmp/s6-overlay-${S6_ARCH}-installer"
 
 
 # install packages
