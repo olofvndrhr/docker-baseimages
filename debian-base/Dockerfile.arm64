@@ -61,4 +61,4 @@ RUN \
 
 
 # set user to abc
-USER abc
+#USER abc
