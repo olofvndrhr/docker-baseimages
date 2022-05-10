@@ -57,7 +57,7 @@ RUN \
 
 
 # copy files to container
-COPY rootfs /
+#COPY rootfs /
 
 
 # set user to abc
