@@ -51,6 +51,17 @@ steps:
     auto_tag_suffix: linux-amd64
     <<: *cr_secrets
 
+- name: 'debian-base: build and publish docker image'
+  <<: *docker_build
+  settings:
+    repo: cr.44net.ch/baseimages/debian-base
+    registry: cr.44net.ch
+    context: debian-base
+    dockerfile: debian-base/Dockerfile.amd64
+    auto_tag: true
+    auto_tag_suffix: linux-amd64
+    <<: *cr_secrets
+
 
 ---
 # build arm64
@@ -102,6 +113,16 @@ steps:
     auto_tag_suffix: linux-arm64
     <<: *cr_secrets
 
+- name: 'debian-base: build and publish docker image'
+  <<: *docker_build
+  settings:
+    repo: cr.44net.ch/baseimages/debian-base
+    registry: cr.44net.ch
+    context: debian-base
+    dockerfile: debian-base/Dockerfile.arm64
+    auto_tag: true
+    auto_tag_suffix: linux-arm64
+    <<: *cr_secrets
 
 ---
 # publish manifest
@@ -138,6 +159,14 @@ steps:
   image: plugins/manifest
   settings:
     spec: debian-s6-slim/manifest.tmpl
+    auto_tag: true
+    ignore_missing: true
+    <<: *cr_secrets
+
+- name: 'debian-base: publish manifest'
+  image: plugins/manifest
+  settings:
+    spec: debian-base/manifest.tmpl
     auto_tag: true
     ignore_missing: true
     <<: *cr_secrets
