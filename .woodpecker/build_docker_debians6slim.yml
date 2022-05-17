@@ -1,0 +1,50 @@
+#######################
+# build docker images #
+#######################
+# branch: master
+# event: pull_request
+
+
+clone:
+  git:
+    when:
+      branch: master
+      event: pull_request
+    image: woodpeckerci/plugin-git
+
+pipeline:
+
+  # debian-s6-slim - build docker image for amd64 - x86
+  dryrun-build-amd64-debian-s6-slim:
+    when:
+      branch: master
+      event: pull_request
+    image: woodpeckerci/plugin-docker-buildx
+    pull: true
+    settings:
+      dry_run: true
+      repo: cr.44net.ch/baseimages/debian-s6-slim
+      registry: cr.44net.ch
+      platforms: linux/amd64
+      context: debian-s6-slim
+      dockerfile: debian-s6-slim/Dockerfile.amd64
+      auto_tag: true
+      auto_tag_suffix: linux-amd64
+
+  # debian-s6-slim - build docker image for arm64
+  dryrun-build-arm64-debian-s6-slim:
+    when:
+      branch: master
+      event: pull_request
+    image: woodpeckerci/plugin-docker-buildx
+    pull: true
+    settings:
+      dry_run: true
+      repo: cr.44net.ch/baseimages/debian-s6-slim
+      registry: cr.44net.ch
+      platforms: linux/arm64
+      context: debian-s6-slim
+      dockerfile: debian-s6-slim/Dockerfile.arm64
+      auto_tag: true
+      auto_tag_suffix: linux-arm64
+

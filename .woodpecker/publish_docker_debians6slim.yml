@@ -1,0 +1,55 @@
+###################################
+# build and publish docker images #
+###################################
+# branch: master
+# event: tag
+
+
+clone:
+  git:
+    when:
+      #branch: master
+      event: tag
+    image: woodpeckerci/plugin-git
+
+pipeline:
+
+  # debian-s6-slim - build and publish docker image for amd64 - x86
+  build-amd64-debian-s6-slim:
+    when:
+      #branch: master
+      event: tag
+    image: woodpeckerci/plugin-docker-buildx
+    pull: true
+    settings:
+      repo: cr.44net.ch/baseimages/debian-s6-slim
+      registry: cr.44net.ch
+      platforms: linux/amd64
+      context: debian-s6-slim
+      dockerfile: debian-s6-slim/Dockerfile.amd64
+      auto_tag: true
+      auto_tag_suffix: linux-amd64
+      username:
+        from_secret: cr-44net-username
+      password:
+        from_secret: cr-44net-key
+
+  # debian-s6-slim - build and publish docker image for arm64
+  build-arm64-debian-s6-slim:
+    when:
+      #branch: master
+      event: tag
+    image: woodpeckerci/plugin-docker-buildx
+    pull: true
+    settings:
+      repo: cr.44net.ch/baseimages/debian-s6-slim
+      registry: cr.44net.ch
+      platforms: linux/arm64
+      context: debian-s6-slim
+      dockerfile: debian-s6-slim/Dockerfile.amd64
+      auto_tag: true
+      auto_tag_suffix: linux-amd64
+      username:
+        from_secret: cr-44net-username
+      password:
+        from_secret: cr-44net-key
