@@ -1,4 +1,4 @@
-FROM debian:bullseye-20211201-slim
+FROM debian:11-slim
 
 # set version label
 ARG BUILD_DATE
