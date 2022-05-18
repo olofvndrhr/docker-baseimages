@@ -42,7 +42,7 @@ pipeline:
     image: woodpeckerci/plugin-docker-buildx
     pull: true
     settings:
-      repo: cr.44net.ch/baseimages/debian-s6-base
+      repo: cr.44net.ch/baseimages/debian-base
       registry: cr.44net.ch
       platforms: linux/arm64
       context: debian-base
