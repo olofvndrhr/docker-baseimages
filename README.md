@@ -1,4 +1,4 @@
-# Docker baseimages with s6 overlay. Built on debian-slim.
+# Docker baseimages with s6 overlay (except debian-base). Built on debian-slim.
 
 [![status-badge](https://ci.44net.ch/api/badges/44net-assets/docker-baseimages-build/status.svg)](https://ci.44net.ch/44net-assets/docker-baseimages-build)
 
