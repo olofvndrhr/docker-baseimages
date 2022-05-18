@@ -46,9 +46,9 @@ pipeline:
       registry: cr.44net.ch
       platforms: linux/arm64
       context: debian-s6
-      dockerfile: debian-s6/Dockerfile.amd64
+      dockerfile: debian-s6/Dockerfile.arm64
       auto_tag: true
-      auto_tag_suffix: linux-amd64
+      auto_tag_suffix: linux-arm64
       username:
         from_secret: cr-44net-username
       password:
