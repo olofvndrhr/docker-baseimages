@@ -63,6 +63,7 @@ RUN \
     /etc/cron.daily \
     /etc/cron.weekly \
     /etc/cron.monthly \
+    /etc/cron.d/* \
     /etc/crontab
 
 
