@@ -1,1 +1,1 @@
-/etc/s6-overlay/init/00-init
+/etc/s6-overlay/init/00-init.sh

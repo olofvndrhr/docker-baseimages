@@ -4,5 +4,7 @@
 # execute all scripts in the /etc/s6-overlay/scripts directory
 
 for script in "/etc/s6-overlay/scripts"/*; do
-  with-contenv bash "${script}"
+    echo "Executing: ${script}"
+    with-contenv bash "${script}"
+    echo "Exit code: ${?}"
 done

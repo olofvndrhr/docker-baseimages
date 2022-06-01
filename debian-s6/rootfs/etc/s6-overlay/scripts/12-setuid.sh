@@ -5,7 +5,6 @@
 # shellcheck disable=SC1073
 # shellcheck disable=SC1004
 
-
 # set pid/gid or leave on default
 : "${PUID:=4444}"
 : "${PGID:=4444}"
