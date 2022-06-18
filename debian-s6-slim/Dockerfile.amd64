@@ -1,10 +1,10 @@
 FROM debian:11.3-slim
 
 # set version label
-ARG BUILD_DATE
-ARG VERSION
-LABEL build_version="Version:- ${VERSION} Build-date:- ${BUILD_DATE}"
-LABEL maintainer='Ivan Schaller'
+ARG BUILD_VERSION
+ENV BASEIMAGE_VERSION="debian-base:${BUILD_VERSION}"
+LABEL baseimage="debian-s6-slim:${BUILD_VERSION}"
+LABEL maintainer="Ivan Schaller"
 
 
 # s6 overlay version
