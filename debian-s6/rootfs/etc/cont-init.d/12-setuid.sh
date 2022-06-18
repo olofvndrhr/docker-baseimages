@@ -5,7 +5,6 @@
 # shellcheck disable=SC1073
 # shellcheck disable=SC1004
 
-
 # set pid/gid or leave on default
 : "${PUID:=4444}"
 : "${PGID:=4444}"
@@ -25,9 +24,10 @@ Source: git.44net.ch/44net-assets/docker-baseimages-build
 Source GitHub: github.com/olofvndrhr/docker-baseimages'
 echo "
 -------------------------------------------------
-GID/UID
+S6 Version: ${S6_VERSION}
+Build Version: ${BUILD_VERSION}
 -------------------------------------------------
-User uid:    $(id -u abc)
-User gid:    $(id -g abc)
+User UID: $(id -u abc)
+User GID: $(id -g abc)
 -------------------------------------------------
 "
