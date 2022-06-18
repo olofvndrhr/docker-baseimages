@@ -30,7 +30,7 @@ Source GitHub: github.com/olofvndrhr/docker-baseimages'
 echo "
 -------------------------------------------------
 S6 Version: ${S6_VERSION}
-Build Version: ${BUILD_VERSION}
+Build Version: ${BASEIMAGE_VERSION}
 -------------------------------------------------
 User UID: $(id -u abc)
 User GID: $(id -g abc)
