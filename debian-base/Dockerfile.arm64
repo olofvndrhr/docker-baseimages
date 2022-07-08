@@ -18,42 +18,48 @@ ENV HOME='/root' \
 
 # install packages
 RUN \
-  echo '**** install base packages ****' && \
-  apt-get update && \
-  apt-get install -y --no-install-recommends \
-      cron \
-      procps \
-      tzdata \
-      locales \
-      autoconf \
-      apt-utils \
-      file \
-      ca-certificates \
-      curl \
-      gzip \
-      bzip2 \
-      zip \
-      tar \
-      xz-utils \
-      rsync \
-      git \
-      wget && \
-  echo '**** generate locale ****' && \
-  localedef -i en_US -c -f UTF-8 -A '/usr/share/locale/locale.alias' en_US.UTF-8 && \
-  echo '**** create default user ****' && \
-  useradd --no-create-home --shell '/bin/false' --uid 4444 abc && \
-  echo '**** cleanup ****' && \
-  apt-get purge --auto-remove -y && \
-  apt-get clean && \
-  rm -rf \
-    /tmp/* \
-    /var/lib/apt/lists/* \
-    /var/tmp/* \
-    /etc/cron.hourly \
-    /etc/cron.daily \
-    /etc/cron.weekly \
-    /etc/cron.monthly \
-    /etc/crontab
+    echo '**** install base packages ****' \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+        cron \
+        procps \
+        tzdata \
+        locales \
+        autoconf \
+        apt-utils \
+        file \
+        ca-certificates \
+        curl \
+        gzip \
+        bzip2 \
+        zip \
+        tar \
+        xz-utils \
+        rsync \
+        git \
+        wget
+
+# prepare container
+RUN \
+    echo '**** generate locale ****' \
+    && localedef -i en_US -c -f UTF-8 -A '/usr/share/locale/locale.alias' en_US.UTF-8 \
+    && echo '**** create default user ****' \
+    && useradd --no-create-home --shell '/bin/false' --uid 4444 abc
+
+# cleanup installation
+RUN \
+    echo "**** cleanup ****" \
+    && apt-get purge --auto-remove -y \
+    && apt-get clean \
+    && rm -rf \
+        /tmp/* \
+        /var/lib/apt/lists/* \
+        /var/tmp/* \
+        /etc/cron.hourly \
+        /etc/cron.daily \
+        /etc/cron.weekly \
+        /etc/cron.monthly \
+        /etc/crontab
 
 
 # copy files to container

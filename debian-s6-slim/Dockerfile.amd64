@@ -2,7 +2,7 @@ FROM debian:11.3-slim
 
 # set version label
 ARG BUILD_VERSION
-ENV BASEIMAGE_VERSION="debian-base:${BUILD_VERSION}"
+ENV BASEIMAGE_VERSION="debian-s6-slim:${BUILD_VERSION}"
 LABEL baseimage="debian-s6-slim:${BUILD_VERSION}"
 LABEL maintainer="Ivan Schaller"
 
@@ -28,33 +28,39 @@ RUN chmod +x "/tmp/s6-overlay-${S6_ARCH}-installer" && "/tmp/s6-overlay-${S6_ARC
 
 # install packages
 RUN \
-  echo '**** install base packages ****' && \
-  apt-get update && \
-  apt-get install -y --no-install-recommends \
-      cron \
-      tzdata \
-      locales \
-      ca-certificates \
-      curl \
-      git \
-      wget && \
-  echo '**** generate locale ****' && \
-  localedef -i en_US -c -f UTF-8 -A '/usr/share/locale/locale.alias' en_US.UTF-8 && \
-  echo '**** create default user ****' && \
-  useradd --no-create-home --shell '/bin/false' --uid 4444 abc && \
-  echo '**** cleanup ****' && \
-  apt-get purge --auto-remove -y && \
-  apt-get clean && \
-  rm -rf \
-    /tmp/* \
-    /var/lib/apt/lists/* \
-    /var/tmp/* \
-    /etc/cron.hourly \
-    /etc/cron.daily \
-    /etc/cron.weekly \
-    /etc/cron.monthly \
-    /etc/cron.d/* \
-    /etc/crontab
+    echo '**** install base packages ****' \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+        cron \
+        tzdata \
+        locales \
+        ca-certificates \
+        curl \
+        git \
+        wget
+
+# prepare container
+RUN \
+    echo '**** generate locale ****' \
+    && localedef -i en_US -c -f UTF-8 -A '/usr/share/locale/locale.alias' en_US.UTF-8 \
+    && echo '**** create default user ****' \
+    && useradd --no-create-home --shell '/bin/false' --uid 4444 abc
+
+
+# cleanup installation
+RUN \
+    echo "**** cleanup ****" \
+    && apt-get purge --auto-remove -y \
+    && apt-get clean \
+    && rm -rf \
+        /tmp/* \
+        /var/lib/apt/lists/* \
+        /var/tmp/* \
+        /etc/cron.hourly \
+        /etc/cron.daily \
+        /etc/cron.weekly \
+        /etc/cron.monthly \
+        /etc/crontab
 
 
 # copy files to container
