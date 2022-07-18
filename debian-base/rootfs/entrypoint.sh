@@ -25,3 +25,5 @@ echo "
 Build Version: ${BASEIMAGE_VERSION}
 -------------------------------------------------
 "
+
+exec "${@}"
